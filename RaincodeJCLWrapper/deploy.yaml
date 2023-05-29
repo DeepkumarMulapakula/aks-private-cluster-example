@@ -1,0 +1,48 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: $NAME
+  namespace: $NAMESPACE
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: $NAME
+  template:
+    metadata:
+      labels:
+        app: $NAME
+    spec:
+      nodeSelector:
+        "kubernetes.io/os": linux
+      containers:
+      - name: $NAME
+        image: $ACR/raincodejclwrapper:latest
+        volumeMounts:
+          - name: $VOLUME_NAME
+            mountPath: /app/FileStorage
+        resources:
+          requests:
+            cpu: 100m
+            memory: 128Mi
+          limits:
+            cpu: 250m
+            memory: 256Mi
+        ports:
+        - containerPort: 80
+      volumes:
+      - name: $VOLUME_NAME
+        persistentVolumeClaim:
+          claimName: $VOLUME_CLAIM_NAME
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: $NAME
+  namespace: $NAMESPACE
+spec:
+  type: LoadBalancer
+  ports:
+  - port: 80
+  selector:
+    app: $NAME
