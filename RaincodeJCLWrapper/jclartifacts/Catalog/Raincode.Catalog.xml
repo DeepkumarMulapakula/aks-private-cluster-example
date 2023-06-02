@@ -1,0 +1,19 @@
+<catalogConfiguration defaultRecordLength="80" defaultSysoutRecordLength="200" defaultSysprintRecordLength="200" truncateRedirectedSysoutRecord="true" ebcdicCompareCodePage="870" defaultOutputClass="A" defaultCodePage="1252" sysoutFolderPath="/app/FileStorage/SYSOUT" sysoutVolumeName="#SYSOUT" sysoutSyslogVersion="1" autoEditCalendarFolderPath="/app/FileStorage/AutoEditCalendars" sysoutFolderNamingPattern="JOB{ID}" defaultRecordFormat="FB" defaultSysoutRecordFormat="LSEQ" defaultSysprintRecordFormat="LSEQ" instreamDataRecordFormat="FB" instreamDataRecordLength="80" SDSN_Wait="3600" enforceMemoryRestriction="true" enforceUpdateLastReference="false" dbConnectionDataProvider="/app/FileStorage/RcDbConnections.csv">
+	<units>
+		<unit name="SYSDA" isDefault="true">
+			<volumes>
+				<volume name="DEFAULT" path="/app/FileStorage/DefaultVolume" isDefault="true" />
+			</volumes>
+		</unit>
+	</units>
+	<defaultProcLibraries>
+		<dsn>SYS1.PROCLIB</dsn>
+	</defaultProcLibraries>
+	<codePages jclAlternate="1252" jclRewrite="Default" />
+	<executableSearchPaths>
+		<path>/opt/raincodebatch/bin</path>
+		<path>/app/FileStorage/Programs</path>
+	</executableSearchPaths>
+	<datasetMapping>
+	</datasetMapping>
+</catalogConfiguration>
