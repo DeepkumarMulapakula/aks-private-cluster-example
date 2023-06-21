@@ -1,0 +1,45 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: $IMSQL_PROCESSING_SERVER
+  namespace: $NAMESPACE
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: $IMSQL_PROCESSING_SERVER
+  template:
+    metadata:
+      labels:
+        app: $IMSQL_PROCESSING_SERVER
+    spec:
+      nodeSelector:
+        "kubernetes.io/os": linux
+      containers:
+      - name: $IMSQL_PROCESSING_SERVER
+        image: $ACR/raincodeimsqlprocessingserver:latest
+        volumeMounts:
+          - name: $VOLUME_NAME
+            mountPath: /app
+        resources:
+          requests:
+            cpu: 100m
+            memory: 128Mi
+          limits:
+            cpu: 250m
+            memory: 256Mi
+        env:
+        - name: REGION_ID
+          valueFrom:
+            secretKeyRef:
+              name: $IMSQL_CONFIG_SECRET
+              key: regionid
+        - name: CONN_STRING
+          valueFrom:
+            secretKeyRef:
+              name: $IMSQL_CONFIG_SECRET
+              key: configdbconnstring
+      volumes:
+      - name: $VOLUME_NAME
+        persistentVolumeClaim:
+          claimName: $IMSQL_PS_VOLUME_CLAIM

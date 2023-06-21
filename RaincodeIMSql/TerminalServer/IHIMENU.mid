@@ -1,0 +1,24 @@
+﻿<MFSMessage
+ Name="IHIMENU"
+ Type="Input"
+ Source="HIMENU"
+ Ignore="TRUE"
+ Option=""
+ Next="OHIMENU"
+>
+<MFSMessagePage
+>
+<MFSSegment>
+<MFSMessageField
+ Length="8"
+ LiteralValue="himenu  "
+>
+</MFSMessageField>
+<MFSMessageField
+ Length="30"
+ DeviceFieldName="INAME"
+>
+</MFSMessageField>
+</MFSSegment>
+</MFSMessagePage>
+</MFSMessage>

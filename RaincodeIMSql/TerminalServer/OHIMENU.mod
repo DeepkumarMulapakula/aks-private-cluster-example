@@ -1,0 +1,19 @@
+﻿<MFSMessage
+ Name="OHIMENU"
+ Type="Output"
+ Source="HIMENU"
+ Ignore="TRUE"
+ Option=""
+ Next="IHIMENU"
+>
+<MFSMessagePage
+>
+<MFSSegment>
+<MFSMessageField
+ Length="100"
+ DeviceFieldName="OUTMSG"
+>
+</MFSMessageField>
+</MFSSegment>
+</MFSMessagePage>
+</MFSMessage>

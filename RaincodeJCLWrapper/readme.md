@@ -1,4 +1,6 @@
-# Post deployment activity to run your Mainframe workloads on AKS containers
+# Post deployment activity to run your Mainframe JCL workloads on AKS containers
+
+Below steps helps you to place your Mainframe JCLs and other artifacts on azure fileshare and execute them using AKS containers with the help of Raincode software.
 
 ## Configure Storage account: ##
 

@@ -1,0 +1,80 @@
+﻿<MFSFormat
+ Name="HIMENU"
+>
+<MFSDevice
+ SysMsg=""
+ DeviceType="3270-A02"
+ PfkField=""
+ Width="0"
+>
+<MFSDeviceFormat
+ Type="InOut"
+>
+<MFSDevicePage
+ CursorLine="10"
+ CursorColumn="33"
+ CursorField=""
+>
+<MFSDeviceField
+ Line="5"
+ Column="24"
+ PageNumber="1"
+ Length="0"
+ Name=""
+ LiteralValue="***IMSql Demo Application***"
+>
+</MFSDeviceField>
+<MFSDeviceField
+ Line="1"
+ Column="3"
+ PageNumber="1"
+ Length="0"
+ Name=""
+ LiteralValue="Date: "
+>
+</MFSDeviceField>
+<MFSDeviceField
+ Line="1"
+ Column="10"
+ PageNumber="1"
+ Length="11"
+ Name="CURDATE"
+ ProtectionAttribute="Prot"
+ DisplayIntensityAttribute="Hi"
+>
+</MFSDeviceField>
+<MFSDeviceField
+ Line="10"
+ Column="3"
+ PageNumber="1"
+ Length="0"
+ Name=""
+ ProtectionAttribute="Prot"
+ DisplayIntensityAttribute="Hi"
+ LiteralValue="PLEASE ENTER YOUR FIRST NAME:"
+>
+</MFSDeviceField>
+<MFSDeviceField
+ Line="10"
+ Column="33"
+ PageNumber="1"
+ Length="30"
+ Name="INAME"
+ ProtectionAttribute="NoProt"
+ DisplayIntensityAttribute="Hi"
+>
+</MFSDeviceField>
+<MFSDeviceField
+ Line="19"
+ Column="3"
+ PageNumber="1"
+ Length="100"
+ Name="OUTMSG"
+ ProtectionAttribute="Prot"
+ DisplayIntensityAttribute="Hi"
+>
+</MFSDeviceField>
+</MFSDevicePage>
+</MFSDeviceFormat>
+</MFSDevice>
+</MFSFormat>

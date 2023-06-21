@@ -1,0 +1,61 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: $IMSQL_TERMINAL_SERVER
+  namespace: $NAMESPACE
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: $IMSQL_TERMINAL_SERVER
+  template:
+    metadata:
+      labels:
+        app: $IMSQL_TERMINAL_SERVER
+    spec:
+      nodeSelector:
+        "kubernetes.io/os": linux
+      containers:
+      - name: $IMSQL_TERMINAL_SERVER
+        image: $ACR/raincodeimsqlterminalserver:latest
+        volumeMounts:
+          - name: $VOLUME_NAME
+            mountPath: /app
+        resources:
+          requests:
+            cpu: 100m
+            memory: 128Mi
+          limits:
+            cpu: 250m
+            memory: 256Mi
+        ports:
+        - containerPort: 8080
+        env:
+        - name: REGION_ID
+          valueFrom:
+            secretKeyRef:
+              name: $IMSQL_CONFIG_SECRET
+              key: regionid
+        - name: CONN_STRING
+          valueFrom:
+            secretKeyRef:
+              name: $IMSQL_CONFIG_SECRET
+              key: configdbconnstring
+      volumes:
+      - name: $VOLUME_NAME
+        persistentVolumeClaim:
+          claimName: $IMSQL_TS_VOLUME_CLAIM
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: $IMSQL_TERMINAL_SERVER
+  namespace: $NAMESPACE
+spec:
+  type: LoadBalancer
+  ports:
+  - protocol: TCP
+    port: 8080
+    targetPort: 8080
+  selector:
+    app: $IMSQL_TERMINAL_SERVER
