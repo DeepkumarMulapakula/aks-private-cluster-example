@@ -19,7 +19,7 @@ spec:
       - name: $IMSQL_PROCESSING_SERVER
         image: $ACR/raincodeimsqlprocessingserver:latest
         volumeMounts:
-          - name: $VOLUME_NAME
+          - name: $IMSQL_PS_VOLUME
             mountPath: /app
         resources:
           requests:
@@ -40,6 +40,6 @@ spec:
               name: $IMSQL_CONFIG_SECRET
               key: configdbconnstring
       volumes:
-      - name: $VOLUME_NAME
+      - name: $IMSQL_PS_VOLUME
         persistentVolumeClaim:
           claimName: $IMSQL_PS_VOLUME_CLAIM

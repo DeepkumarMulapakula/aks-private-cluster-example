@@ -19,7 +19,7 @@ spec:
       - name: $IMSQL_TERMINAL_SERVER
         image: $ACR/raincodeimsqlterminalserver:latest
         volumeMounts:
-          - name: $VOLUME_NAME
+          - name: $IMSQL_TS_VOLUME
             mountPath: /app
         resources:
           requests:
@@ -29,7 +29,7 @@ spec:
             cpu: 250m
             memory: 256Mi
         ports:
-        - containerPort: 8080
+        - containerPort: 5000
         env:
         - name: REGION_ID
           valueFrom:
@@ -41,8 +41,10 @@ spec:
             secretKeyRef:
               name: $IMSQL_CONFIG_SECRET
               key: configdbconnstring
+        - name: PORT_NO
+          value: "5000"
       volumes:
-      - name: $VOLUME_NAME
+      - name: $IMSQL_TS_VOLUME
         persistentVolumeClaim:
           claimName: $IMSQL_TS_VOLUME_CLAIM
 ---
@@ -55,7 +57,7 @@ spec:
   type: LoadBalancer
   ports:
   - protocol: TCP
-    port: 8080
-    targetPort: 8080
+    port: 992
+    targetPort: 5000
   selector:
     app: $IMSQL_TERMINAL_SERVER

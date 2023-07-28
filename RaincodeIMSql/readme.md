@@ -20,11 +20,10 @@ Below steps helps you to have the IMS artifacts placed on the azure fileshare an
 
 - Create a storage account and azure fileshare ($IMSQL_FILE_SHARE), for e.g. imsqlfilestorage and add the folders ProcessingServer and TerminalServer
 - Perfom below on ProcessingServer folder 
-    - Place the Raincode license file
-    - Copy entrypoint.sh file   
+    - Place the Raincode license file  
     - Place your raincode compiled COBOL & PL1 dlls,if you dont have these handy then copy HIMENU.dll
     - Place your raincode compiled PSB xml files, if you dont have it handy then copy PSBMENU.xml
-- Under TerminalServer folder, - Copy entrypoint.sh file, place your raincode compiled MFS executables (dif,dof,mid,mod) ,if you dont have these handy then copy HIMENU.dif, HIMENU.dof, IHIMENU.mid and OHIMENU.mod
+- Under TerminalServer folder place your raincode compiled MFS executables (dif,dof,mid,mod) ,if you dont have these handy then copy HIMENU.dif, HIMENU.dof, IHIMENU.mid and OHIMENU.mod
 
 ## Mount azure fileshare to AKS cluster: ##
 
@@ -41,7 +40,7 @@ In this step you would create required setup in order to provide the access requ
     ```
 - Create a generic sceret in AKS cluster so that AKS cluster can access fileshare using this secret
     ```
-    kubectl create secret generic $IMSQL_CONFIG_SECRET --from-literal=azurestorageaccountname=$STORAGE_ACCOUNT_NAME --from-literal=azurestorageaccountkey=$STORAGE_KEY --namespace=$NAMESPACE
+    kubectl create secret generic $IMSQL_STORAGE_SECRET --from-literal=azurestorageaccountname=$STORAGE_ACCOUNT_NAME --from-literal=azurestorageaccountkey=$STORAGE_KEY --namespace=$NAMESPACE
     ```
 - Create a new file named pv-imsql.yaml to provide Processing & Terminal server's persistent volume configuration to the cluster
     ```
@@ -65,7 +64,7 @@ In this step you would create required setup in order to provide the access requ
 
 Below step helps you to store the IMSql config database connectionstring ($IMSQL_CONFIG_DB_CONNSTRING) and region ($REGION_ID) as a secret in AKS cluster so that IMSql containers can access it securely.
 ```
-kubectl create secret generic $IMSQL_ENV_SECRET --from-literal=configdbconnstring="$IMSQL_CONFIG_DB_CONNSTRING" --from-literal=regionid=$REGION_ID --namespace=$NAMESPACE
+kubectl create secret generic $IMSQL_CONFIG_SECRET --from-literal=configdbconnstring="$IMSQL_CONFIG_DB_CONNSTRING" --from-literal=regionid=$REGION_ID --namespace=$NAMESPACE
 ```
 ## Deploy the IMSqlProcessingServerContainer: ##
 

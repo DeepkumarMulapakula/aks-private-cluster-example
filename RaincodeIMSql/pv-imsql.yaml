@@ -8,7 +8,7 @@ spec:
   accessModes:
     - ReadWriteMany
   azureFile:
-    secretName: $IMSQL_CONFIG_SECRET
+    secretName: $IMSQL_STORAGE_SECRET
     shareName: $IMSQL_FILE_SHARE/ProcessingServer
     readOnly: false
   mountOptions:
@@ -29,7 +29,7 @@ spec:
   accessModes:
     - ReadWriteMany
   azureFile:
-    secretName: $IMSQL_CONFIG_SECRET
+    secretName: $IMSQL_STORAGE_SECRET
     shareName: $IMSQL_FILE_SHARE/TerminalServer
     readOnly: false
   mountOptions:
