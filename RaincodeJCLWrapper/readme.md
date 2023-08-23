@@ -6,18 +6,18 @@ Below steps helps you to place your Mainframe JCLs and other artifacts on azure 
 
 Below steps helps you to have the JCL artifacts placed on the azure fileshare and let JCLContainer access it using the file mount
 
-- Create azure fileshare ($AZURE_FILE_SHARE), for e.g. jclartifacts and add the folders Catalog, Jcls and Programs
-- Under Catalog folder copy the Raincode.Catalog.xml and Raincode license file
-- Under Jcls folder, place your mainframe JCLs, you can copy the sample jcls SUBSTR.JCL & JCLHELLO.JCL if you dont have JCLs handy 
-- Under Programs folder, place your raincode compiled COBOL & PL1 dlls, you can copy the sample HELLO.dll if you dont have compiled dlls handy
+- Create azure fileshare ($AZURE_FILE_SHARE), for e.g. jclartifacts and add Catalog, Jcls and Programs directories under it
+- Under Catalog directory copy the Raincode.Catalog.xml and Raincode license file
+- Under Jcls directory, place your mainframe JCLs, you can copy the sample jcls SORTFILE.JCL & JCLHELLO.JCL if you dont have JCLs handy 
+- Under Programs directory, place your raincode compiled COBOL & PL1 dlls, you can copy the sample HELLO.dll if you dont have compiled dlls handy
 - Place DB connection strings if required by the COBOL & PL1 modules in the RcDbConnections.csv file under the fileshare jclartifacts
 
 ## Mount azure fileshare to AKS cluster: ##
 
 - Login to the azure portal and open the Cloud Shell, Refer [Microsoft Documentation](https://learn.microsoft.com/en-us/azure/aks/learn/quick-kubernetes-deploy-portal?tabs=azure-cli#connect-to-the-cluster)
-- Configure kubectl by executing below command
+- Configure kubectl by executing below command, provide resource group and cluster name of your AKS cluster
 ```
-az aks get-credentials --resource-group myResourceGroup --name $AKS_CLUSTER_NAME
+az aks get-credentials --resource-group $AKS_CLUSTER_RG --name $AKS_CLUSTER_NAME
 ```
 - Create namespace for the JCLContainer objects
 ```
@@ -27,39 +27,51 @@ kubectl create namespace $NAMESPACE
 ```
 kubectl create secret generic $SECRET_NAME --from-literal=azurestorageaccountname=$STORAGE_ACCOUNT_NAME --from-literal=azurestorageaccountkey=$STORAGE_KEY --namespace=$NAMESPACE
 ```
-- Create a new file named pv-fileshare.yaml to provide persistent volume configuration to the cluster
+- Create a new file named pv-jcl.yaml to provide persistent volume configuration to the cluster
 ```
-code pv-fileshare.yaml
+code pv-jcl.yaml
 ```
 - Copy and replace the content as required, save and close the editor.
 - Create the persistent volume using the kubectl apply command
 ```
-kubectl apply -f  pv-fileshare.yaml
+kubectl apply -f  pv-jcl.yaml
 ```
 
-- Create a new file named pvc-fileshare.yaml to provide persistent volume claim configuration to the cluster
+- Create a new file named pvc-jcl.yaml to provide persistent volume claim configuration to the cluster
 ```
-code pvc-fileshare.yaml
+code pvc-jcl.yaml
 ```
 - Copy and replace the content as required, save and close the editor.
 - Create the persistent volume claim using the kubectl apply command
 ```
-kubectl apply -f  pvc-fileshare.yaml
+kubectl apply -f  pvc-jcl.yaml
 ```
 
 ## Deploy the JCLContainer: ##
 
-- Create a new file named deploy.yaml to provide deployment configurations to the cluster
+- Create a new file named deploy-jcl.yaml to provide deployment configurations to the cluster
 ```
-code deploy.yaml
+code deploy-jcl.yaml
 ```
 - Copy and replace the content as required, save and close the editor.
 - Create the pod and service using the kubectl apply command
 ```
-kubectl apply -f  deploy.yaml
+kubectl apply -f  deploy-jcl.yaml
 ```
-- Monitor the deployment progress using below command
+- Check if the pod and service are created successfully using below commands
 ```
-kubectl get service $SERVICE_NAME --watch
+kubectl get pods -o wide -n $NAMESPACE
+kubectl get service $NAME --namespace $NAMESPACE
 ```
-- Once you see the external ip then consider the deployment is successful and you can access the same to trigger a request
+
+![RaincodeJCL Pod](https://github.com/DeepkumarMulapakula/aks-private-cluster-example/raw/main/RaincodeJCLWrapper/screenshots/raincodejcl-pod.PNG)
+
+- Once you see the external ip as below then consider the deployment is successful and you can access the same to trigger a request
+
+![RaincodeJCL Service](https://github.com/DeepkumarMulapakula/aks-private-cluster-example/raw/main/RaincodeJCLWrapper/screenshots/service-external-ip.PNG)
+
+- Use any HTTP client to trigger a job submission request to the Raincode JCL container and you should see the response from the container with the Job Id and process id.
+
+
+- Once you inspect the pod for logs then you would see the Raincode JCL running log inside a container.
+
