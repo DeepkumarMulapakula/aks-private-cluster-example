@@ -18,12 +18,12 @@ Below steps helps you to create the IMSql configuration database, required table
 
 Below steps helps you to have the IMS artifacts placed on the azure fileshare and let IMSql contianers access it using the file mount
 
-- Create a storage account and azure fileshare ($IMSQL_FILE_SHARE), for e.g. imsqlfilestorage and add the folders ProcessingServer and TerminalServer
-- Perfom below on ProcessingServer folder 
+- Create a storage account and azure fileshare ($IMSQL_FILE_SHARE), for e.g. imsqlfilestorage and add ProcessingServer and TerminalServer directories under it 
+- Perfom below on ProcessingServer directory 
     - Place the Raincode license file  
     - Place your raincode compiled COBOL & PL1 dlls,if you dont have these handy then copy HIMENU.dll
     - Place your raincode compiled PSB xml files, if you dont have it handy then copy PSBMENU.xml
-- Under TerminalServer folder place your raincode compiled MFS executables (dif,dof,mid,mod) ,if you dont have these handy then copy HIMENU.dif, HIMENU.dof, IHIMENU.mid and OHIMENU.mod
+- Under TerminalServer directory place your raincode compiled MFS executables (dif,dof,mid,mod) ,if you dont have these handy then copy HIMENU.dif, HIMENU.dof, IHIMENU.mid and OHIMENU.mod
 
 ## Mount azure fileshare to AKS cluster: ##
 
@@ -77,16 +77,12 @@ kubectl create secret generic $IMSQL_CONFIG_SECRET --from-literal=configdbconnst
     ```
     kubectl apply -f  imsql-processingserver.yaml
     ```
-- View the running pod and access the terminal of ProcessingServer container by executing below command, you might need to set the namespace to current by executing set context command first 
+- Check if the deployment is successful using below command
     ```
-    kubectl config set-context --current –namespace=$NAMESPACE
-    kubectl get pods -o wide
-    kubectl exec -it pod/$POD_NAME -- /bin/bash
+    kubectl get pods -o wide –n $NAMESPACE
     ```
-- Copy the license to /opt/raincode folder inside container so that license can validated by the ProcessingServer 
-    ```
-    cp $RAINCODE_LICENSE_FILE /opt/raincode
-    ```
+![IMSql PS](https://github.com/DeepkumarMulapakula/aks-private-cluster-example/raw/main/RaincodeIMSql/screenshots/imsql-ps.PNG)
+
 ## Deploy the IMSqlTerminalServerContainer: ##
 
 - Create a new file named imsql-terminalserver.yaml to provide TerminalServer deployment configurations to the cluster
@@ -98,8 +94,43 @@ kubectl create secret generic $IMSQL_CONFIG_SECRET --from-literal=configdbconnst
     ```
     kubectl apply -f  imsql-terminalserver.yaml
     ```
-- Monitor the deployment progress using below command
+- Check if the pod and service are created using below commands
     ```
-    kubectl get service $SERVICE_NAME --watch
+    kubectl get pods -o wide –n $NAMESPACE
+    kubectl get services -o wide –n $NAMESPACE
     ```
+![IMSql TS](https://github.com/DeepkumarMulapakula/aks-private-cluster-example/raw/main/RaincodeIMSql/screenshots/imsql-ts.PNG)
+![IMSql TS-SERVICE](https://github.com/DeepkumarMulapakula/aks-private-cluster-example/raw/main/RaincodeIMSql/screenshots/imsql-ts-service.PNG)
+
 - Once you see the external ip then consider the deployment is successful and you can access the same to connect from a 3270 terminal
+
+
+## Test the deployed application: ##
+
+- Use open command with the external ip address and port number on a 3270 terminal as below to connect to IMSql terminal container.
+
+![IMSql WC3270-OPEN](https://github.com/DeepkumarMulapakula/aks-private-cluster-example/raw/main/RaincodeIMSql/screenshots/wc3270-open.PNG)
+
+- Once the connection is successful you would be prompted with login screen, use DEEP & DEEP as the credentials to login.
+
+- Key in **/FOR OHIMENU** on terminal to see first screen in the demo application.
+
+![IMSql WC3270-OHIMENU](https://github.com/DeepkumarMulapakula/aks-private-cluster-example/raw/main/RaincodeIMSql/screenshots/wc3270-ohimenu.PNG)
+
+- The first screen of IMSql Demo application is promoted asking you to provide the first name and press enter.
+
+![IMSql WC3270-FIRST](https://github.com/DeepkumarMulapakula/aks-private-cluster-example/raw/main/RaincodeIMSql/screenshots/wc3270-firstscreen.PNG)
+
+- You would be promoted with welcome screen with number of letters in your first name.
+
+![IMSql WC3270-FINAL](https://github.com/DeepkumarMulapakula/aks-private-cluster-example/raw/main/RaincodeIMSql/screenshots/wc320-final.PNG)
+
+- When you inspect the processing server pod then you can see the logs related to conversation and IMS module execution.
+
+![IMSql WC3270-PS-LOGS-1](https://github.com/DeepkumarMulapakula/aks-private-cluster-example/raw/main/RaincodeIMSql/screenshots/imsql-ps-logs-1.PNG)
+![IMSql WC3270-PS-LOGS-2](https://github.com/DeepkumarMulapakula/aks-private-cluster-example/raw/main/RaincodeIMSql/screenshots/imsql-ps-logs-2.PNG)
+
+
+
+
+
