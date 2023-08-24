@@ -66,12 +66,18 @@ kubectl get service $NAME --namespace $NAMESPACE
 
 ![RaincodeJCL Pod](https://github.com/DeepkumarMulapakula/aks-private-cluster-example/raw/main/RaincodeJCLWrapper/screenshots/raincodejcl-pod.PNG)
 
-- Once you see the external ip as below then consider the deployment is successful and you can access the same to trigger a request
-
 ![RaincodeJCL Service](https://github.com/DeepkumarMulapakula/aks-private-cluster-example/raw/main/RaincodeJCLWrapper/screenshots/service-external-ip.PNG)
 
-- Use any HTTP client to trigger a job submission request to the Raincode JCL container and you should see the response from the container with the Job Id and process id.
+- Once you see the external ip as above then consider the deployment is successful and you can access the same to trigger a request
+- Use any HTTP client to trigger a job submission request to the Raincode JCL container, you would see response back with submitted job detials.
 
+![RaincodeJCL Postman](https://github.com/DeepkumarMulapakula/aks-private-cluster-example/raw/main/RaincodeJCLWrapper/screenshots/Postman-client.PNG)
 
-- Once you inspect the pod for logs then you would see the Raincode JCL running log inside a container.
+- Inspect the pod for the recent submitted job logs.
+
+![RaincodeJCL ContainerJobLogs](https://github.com/DeepkumarMulapakula/aks-private-cluster-example/raw/main/RaincodeJCLWrapper/screenshots/Job-logs-from-container.PNG)
+
+- Alternatively you can access the Job logs, SYSOUT, Default volume, etc from the Fileshare mouted to the container.
+
+![RaincodeJCL FileShareJobLogs](https://github.com/DeepkumarMulapakula/aks-private-cluster-example/raw/main/RaincodeJCLWrapper/screenshots/SYSOUT-from-FileShare.PNG)
 
