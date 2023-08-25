@@ -123,7 +123,7 @@ kubectl create secret generic $IMSQL_CONFIG_SECRET --from-literal=configdbconnst
 
 - A welcome message would be prompted with number of letters in your first name.
 
-![IMSql WC3270-FINAL](https://github.com/DeepkumarMulapakula/aks-private-cluster-example/raw/main/RaincodeIMSql/screenshots/wc320-final.PNG)
+![IMSql WC3270-FINAL](https://github.com/DeepkumarMulapakula/aks-private-cluster-example/raw/main/RaincodeIMSql/screenshots/wc3270-final.PNG)
 
 - When you inspect the processing server pod then you can see the logs related to conversation and IMS module execution.
 
