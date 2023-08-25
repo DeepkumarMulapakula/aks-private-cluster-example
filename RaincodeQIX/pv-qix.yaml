@@ -1,0 +1,41 @@
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: $QIX_PS_VOLUME
+spec:
+  capacity:
+    storage: 5Gi
+  accessModes:
+    - ReadWriteMany
+  azureFile:
+    secretName: $QIX_STORAGE_SECRET
+    shareName: $QIX_FILE_SHARE/processingserver
+    readOnly: false
+  mountOptions:
+  - dir_mode=0777
+  - file_mode=0777
+  - uid=1000
+  - gid=1000
+  - mfsymlinks
+  - nobrl
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: $QIX_TS_VOLUME
+spec:
+  capacity:
+    storage: 5Gi
+  accessModes:
+    - ReadWriteMany
+  azureFile:
+    secretName: $QIX_STORAGE_SECRET
+    shareName: $QIX_FILE_SHARE/terminalserver
+    readOnly: false
+  mountOptions:
+  - dir_mode=0777
+  - file_mode=0777
+  - uid=1000
+  - gid=1000
+  - mfsymlinks
+  - nobrl

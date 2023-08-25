@@ -1,0 +1,45 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: $QIX_PROCESSING_SERVER
+  namespace: $NAMESPACE
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: $QIX_PROCESSING_SERVER
+  template:
+    metadata:
+      labels:
+        app: $QIX_PROCESSING_SERVER
+    spec:
+      nodeSelector:
+        "kubernetes.io/os": linux
+      containers:
+      - name: $QIX_PROCESSING_SERVER
+        image: $ACR/raincodeqixprocessingserver:latest
+        volumeMounts:
+          - name: $QIX_PS_VOLUME
+            mountPath: /app
+        resources:
+          requests:
+            cpu: 100m
+            memory: 128Mi
+          limits:
+            cpu: 250m
+            memory: 256Mi
+        env:
+        - name: REGION_ID
+          valueFrom:
+            secretKeyRef:
+              name: $QIX_CONFIG_SECRET
+              key: regionid
+        - name: CONN_STRING
+          valueFrom:
+            secretKeyRef:
+              name: $QIX_CONFIG_SECRET
+              key: configdbconnstring       
+      volumes:
+      - name: $QIX_PS_VOLUME
+        persistentVolumeClaim:
+          claimName: $QIX_PS_VOLUME_CLAIM

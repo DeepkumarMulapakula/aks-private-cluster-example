@@ -1,0 +1,63 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: $QIX_TERMINAL_SERVER
+  namespace: $NAMESPACE
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: $QIX_TERMINAL_SERVER
+  template:
+    metadata:
+      labels:
+        app: $QIX_TERMINAL_SERVER
+    spec:
+      nodeSelector:
+        "kubernetes.io/os": linux
+      containers:
+      - name: $QIX_TERMINAL_SERVER
+        image: $ACR/raincodeqixterminalserver:latest
+        volumeMounts:
+          - name: $QIX_TS_VOLUME
+            mountPath: /app
+        resources:
+          requests:
+            cpu: 100m
+            memory: 128Mi
+          limits:
+            cpu: 250m
+            memory: 256Mi
+        ports:
+        - containerPort: 9000
+        env:
+        - name: REGION_ID
+          valueFrom:
+            secretKeyRef:
+              name: $QIX_CONFIG_SECRET
+              key: regionid
+        - name: CONN_STRING
+          valueFrom:
+            secretKeyRef:
+              name: $QIX_CONFIG_SECRET
+              key: configdbconnstring
+        - name: PORT_NO
+          value: "9000"
+      volumes:
+      - name: $QIX_TS_VOLUME
+        persistentVolumeClaim:
+          claimName: $QIX_TS_VOLUME_CLAIM
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: $QIX_TERMINAL_SERVER
+  namespace: $NAMESPACE
+spec:
+  type: LoadBalancer
+  ports:
+  - protocol: TCP
+    port: 993
+    targetPort: 9000
+  selector:
+    app: $QIX_TERMINAL_SERVER

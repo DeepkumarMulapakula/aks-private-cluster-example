@@ -121,7 +121,7 @@ kubectl create secret generic $IMSQL_CONFIG_SECRET --from-literal=configdbconnst
 
 ![IMSql WC3270-FIRST](https://github.com/DeepkumarMulapakula/aks-private-cluster-example/raw/main/RaincodeIMSql/screenshots/wc3270-firstscreen.PNG)
 
-- You would be promoted with welcome message with number of letters in your first name.
+- A welcome message would be prompted with number of letters in your first name.
 
 ![IMSql WC3270-FINAL](https://github.com/DeepkumarMulapakula/aks-private-cluster-example/raw/main/RaincodeIMSql/screenshots/wc320-final.PNG)
 

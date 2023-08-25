@@ -1,0 +1,77 @@
+<BMSMapset
+ Name="HIMENU"
+ Type="&amp;SYSPARM"
+ Tioapfx="YES"
+ Lang="COBOL"
+ Mode="INOUT"
+ Storage="AUTO"
+ Term="ALL"
+>
+<BMSCtrl
+ FreeKb="TRUE"
+/>
+<BMSMap
+ Name="HIMENU"
+ Heigth="24"
+ Width="80"
+>
+<MapLineColumn
+ Kind="Number"
+ Number="1"
+/>
+<MapLineColumn
+ Kind="Number"
+ Number="1"
+/>
+<Fields>
+<BMSField
+ Length="26"
+ Initial="***QIX Demo Application***"
+ Color="YELLOW"
+ Line="4"
+ Col="24"
+>
+<BMSFieldAttributes
+ Protection="ASKIP"
+ Intensity="BRT"
+/>
+</BMSField>
+<BMSField
+ Length="29"
+ Initial="PLEASE ENTER YOUR FIRST NAME:"
+ Line="10"
+ Col="3"
+>
+<BMSFieldAttributes
+ Protection="ASKIP"
+ Intensity="BRT"
+/>
+</BMSField>
+<BMSField
+ Name="INAME"
+ Length="30"
+ Line="10"
+ Col="33"
+ ByteLength="33"
+>
+<BMSFieldAttributes
+ Protection="UNPROT"
+ Intensity="NORM"
+ IC="TRUE"
+/>
+</BMSField>
+<BMSField
+ Name="OUTMSG"
+ Length="100"
+ Line="19"
+ Col="3"
+ ByteLength="103"
+>
+<BMSFieldAttributes
+ Protection="PROT"
+ Intensity="NORM"
+/>
+</BMSField>
+</Fields>
+</BMSMap>
+</BMSMapset>
