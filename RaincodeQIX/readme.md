@@ -127,7 +127,7 @@ kubectl create secret generic $QIX_CONFIG_SECRET --from-literal=configdbconnstri
 
 - A welcome message would be prompted with number of letters in your first name.
 
-![QIX WC3270-FINAL](https://github.com/DeepkumarMulapakula/aks-private-cluster-example/raw/main/RaincodeQIX/screenshots/wc320-last-screen.PNG)
+![QIX WC3270-FINAL](https://github.com/DeepkumarMulapakula/aks-private-cluster-example/raw/main/RaincodeQIX/screenshots/wc3270-last-screen.PNG)
 
 - When you inspect the processing server pod then you can see the logs related to conversation and QIX module execution.
 
